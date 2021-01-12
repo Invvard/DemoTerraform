@@ -1,0 +1,3 @@
+﻿{
+  "azureFunctionBaseUrl": "https://#{functionName}#.azurewebsites.net"
+}

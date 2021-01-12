@@ -1,0 +1,3 @@
+{
+  "appSettingsTargetFile": "#{stageName}#-appsettings.json" //"pr-appsettings.json", "dev-appsettings.json" or "local-appsettings.json"
+}
