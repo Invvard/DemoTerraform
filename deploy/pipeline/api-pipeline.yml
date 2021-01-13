@@ -7,9 +7,25 @@ trigger:
   paths:
     include:
       - deploy/terraform/*
-      - code/TerraformingFromScratch/*
+      - src/TerraformingFromScratch/*
 
 variables:
   - group: Backend-Resource-Names
   - name: isMainBranch
     value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+
+stages:
+  - template: templates/stages/api-dowepush.yml
+    parameters:
+      stage: dev
+      apiName: DoWePush
+      applyDeployment: ${{ variables.isMainBranch }}
+      azureMsiCredFile: arm.credentials.dev.auto.tfvars
+      azureSubscription: Azure Invvard
+      backendContainerName: $(BackendContainerName)
+      backendMsiCredFile: backend.dev.tfvars
+      backendResourceGroupName: $(BackendResourceGroupName)
+      backendStorageAccountName: $(BackendStorageAccountName)
+      releaseId: $(System.StageName)-b$(Build.BuildId)
+      buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/TerraformingFromScratch/
+      terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
