@@ -1,0 +1,15 @@
+name: $(BuildDefinitionName) $(Year:yy)$(DayOfYear)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - deploy/terraform/*
+      - code/TerraformingFromScratch/*
+
+variables:
+  - group: Backend-Resource-Names
+  - name: isMainBranch
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
