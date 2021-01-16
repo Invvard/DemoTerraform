@@ -12,12 +12,12 @@ variables:
 
 stages:
   - stage: backend
-    displayName: Deploy Parkeeng
+    displayName: Deploy Init Backend 
     
     jobs:
       - job: deploy
         variables:
-          workingDirectory: '$(System.DefaultWorkingDirectory)/deploy/terraform/00-backend-infra'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/deploy/terraform/init-backend'
 
         steps:
           - task: DownloadSecureFile@1

@@ -1,5 +1,5 @@
 provider "azurerm" {
-	version = ">2.40d	"
+	version = ">2.40"
 
 	subscription_id	= var.arm_subscription_id
 	client_id       = var.arm_client_id
