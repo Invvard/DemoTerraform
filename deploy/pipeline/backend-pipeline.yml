@@ -1,0 +1,47 @@
+name: $(BuildDefinitionName) $(Year:yy)$(DayOfYear)$(Rev:.r)
+
+trigger:
+  none
+  
+variables:
+  - group: Backend-Resource-Names
+  - name: azureMsiCredFile
+    value: 'arm.credentials.dev.auto.tfvars'
+  - name: tfplanName
+    value: 'backend.tfplan'
+
+stages:
+  - stage: backend
+    displayName: Deploy Parkeeng
+    
+    jobs:
+      - job: deploy
+        variables:
+          workingDirectory: '$(System.DefaultWorkingDirectory)/deploy/terraform/00-backend-infra'
+
+        steps:
+          - task: DownloadSecureFile@1
+            displayName: Download Azure MSI Credentials ($(azureMsiCredFile))
+            name: azureMsiCreds
+            inputs:
+              secureFile: $(azureMsiCredFile)
+              retryCount: '7'
+
+          - script: |
+              mv $(azureMsiCreds.secureFilePath) $(workingDirectory)/$(azureMsiCredFile)
+            displayName: Move secure file to $(workingDirectory)
+
+          - script: |
+              terraform init -backend=false
+            workingDirectory: '$(workingDirectory)'
+            displayName: Terraform init
+              
+          - script: |
+              terraform plan -input=false -out $(tfplanName) -var resource_group_name=$(BackendResourceGroupName) -var storage_account_name=$(BackendStorageAccountName) -var container_tfstate_name=$(BackendContainerName)
+            workingDirectory: '$(workingDirectory)'
+            displayName: Terraform plan
+              
+          - script: |
+              terraform apply -input=false -auto-approve $(tfplanName)
+            workingDirectory: '$(workingDirectory)'
+            displayName: Terraform apply
