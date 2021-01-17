@@ -385,3 +385,4 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+deploy/terraform/env_vars/*.auto.tfvars
