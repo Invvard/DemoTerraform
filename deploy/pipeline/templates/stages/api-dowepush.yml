@@ -1,0 +1,51 @@
+parameters:
+  - name: applyDeployment
+  - name: azureMsiCredFile
+  - name: backendContainerName
+  - name: backendResourceGroupName
+  - name: backendStorageAccountName
+  - name: releaseId
+  - name: stage
+  - name: terraformWorkingDirectory
+  - name: apiName
+  - name: buildWorkingDirectory
+  - name: azureSubscription
+
+stages:
+  - stage: ${{ parameters.stage }}
+    displayName: Deploy Demo Terraform
+
+    variables:
+      - group: Auth0-Management
+      - name: functionAppName
+        value: fct-demotf-${{ parameters.stage }}-${{ parameters.apiName }}
+      - name: apiArchiveName
+        value: Api.${{ parameters.apiName }}.${{ parameters.releaseId }}.zip
+
+    jobs:
+      - template: ../jobs/api-provision.yml
+        parameters:
+          stage: ${{ parameters.stage }}
+          applyDeployment: ${{ parameters.applyDeployment }}
+          azureMsiCredFile: ${{ parameters.azureMsiCredFile }}
+          backendContainerName: ${{ parameters.backendContainerName }}
+          backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
+          backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+          releaseId: ${{ parameters.releaseId }}
+          workingDirectory: ${{ parameters.terraformWorkingDirectory }}/20-api-infra
+      
+      # - template: ../jobs/api-build.yml
+      #   parameters:
+      #     apiName: ${{ parameters.apiName }}
+      #     applyDeployment: ${{ parameters.applyDeployment }}
+      #     builtFunctionOutputPath: ${{ parameters.buildWorkingDirectory }}/publish_output
+      #     publishedApiLocation: $(Build.ArtifactStagingDirectory)/$(apiArchiveName)
+      
+      # - template: ../jobs/api-deploy.yml
+      #   parameters:
+      #     apiArchiveName: $(apiArchiveName)
+      #     apiName: ${{ parameters.apiName }}
+      #     azureSubscription: ${{ parameters.azureSubscription }}
+      #     applyDeployment: ${{ parameters.applyDeployment }}
+      #     functionAppName: $(functionAppName)
+      #     stage: ${{ parameters.stage }}

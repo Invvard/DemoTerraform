@@ -1,0 +1,42 @@
+parameters:
+  - name: apiArchiveName
+  - name: apiName
+  - name: applyDeployment
+  - name: azureSubscription
+  - name: functionAppName
+  - name: stage
+
+jobs:
+  - deployment: deployApi
+    displayName: Deploy ${{ parameters.apiName }} API
+
+    variables:
+      - name: environmentName
+        value: parkeeng-${{ parameters.stage }}.api-${{ parameters.apiName }}
+      - name: packagePath
+        value: $(Pipeline.Workspace)/drop/${{ parameters.apiArchiveName }}
+
+    environment: $(environmentName)
+    dependsOn:
+      - buildApi
+      - provisionEnvironment
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureFunctionApp@1
+              name: deployedApi
+              displayName: Deploy ${{ parameters.apiName }} API
+              condition: and(succeeded(), ${{ parameters.applyDeployment }})
+              inputs:
+                azureSubscription: ${{ parameters.azureSubscription }}
+                appType: functionApp
+                appName: ${{ parameters.functionAppName }}
+                package: $(packagePath)
+                deploymentMethod: runFromPackage
+                
+            - script: |
+                echo $(deployedApi.AppServiceApplicationUrl)
+              displayName: Display API URL
+              condition: and(succeeded(), ${{ parameters.applyDeployment }})
