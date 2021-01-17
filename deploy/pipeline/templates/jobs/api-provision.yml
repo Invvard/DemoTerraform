@@ -27,10 +27,8 @@ jobs:
           workingDirectory: ${{ parameters.workingDirectory }}
 
       - script: |
-          ls
-          echo ##### FIN #####
           envsubst < "../env_vars/${{ parameters.stage }}.tfvars" > "terraform.tfvars"
-        displayName: Prepare Terraform variables
+        displayName: Prepare stage specific variables
         workingDirectory: ${{ parameters.workingDirectory }}
 
       - template: ../steps/terraform-apply.yml
