@@ -1,7 +1,7 @@
-variable "arm_subscription_id" {}
-variable "arm_client_id" {}
-variable "arm_client_secret" {}
-variable "arm_tenant_id" {}
+variable "subscription_id" {}
+variable "client_id" {}
+variable "client_secret" {}
+variable "tenant_id" {}
 
 variable "environment_name" {}
 variable "location" { default = "eastus2" }
