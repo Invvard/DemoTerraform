@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraformingFromScratch.Tests", "TerraformingFromScratch.Tests\TerraformingFromScratch.Tests.csproj", "{C70AF072-162F-42DD-959E-B86BD5B815F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvvardDev.DemoTerraform.Tests", "TerraformingFromScratch.Tests\InvvardDev.DemoTerraform.Tests.csproj", "{C70AF072-162F-42DD-959E-B86BD5B815F5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvvardDev.DemoTerraform.Api", "TerraformingFromScratch\InvvardDev.DemoTerraform.Api.csproj", "{791941DA-5F50-4D7A-97BC-BCB586D3C9F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraformingFromScratch.BddTests", "TerraformingFromScratch.BddTests\TerraformingFromScratch.BddTests.csproj", "{B6669031-A747-46D2-AE33-7231C13D9163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvvardDev.DemoTerraform.BddTests", "TerraformingFromScratch.BddTests\InvvardDev.DemoTerraform.BddTests.csproj", "{B6669031-A747-46D2-AE33-7231C13D9163}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
