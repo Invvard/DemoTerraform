@@ -1,31 +1,37 @@
+resource "azurerm_resource_group" "api_resource_group" {
+  name     = "rg-${local.resource_prefix}"
+  location = var.location
+  tags     = var.tags
+}
+
 resource "azurerm_storage_account" "storage" {
-  name                     = var.storage_account_name
-  account_tier             = var.storage_tier
-  account_replication_type = var.storage_replication_type
+  name                     = local.storage_account_name
+  account_tier             = local.storage_tier
+  account_replication_type = local.storage_replication_type
 
   # General info
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.api_resource_group.name
   tags                = var.tags
 }
 
 resource "azurerm_app_service_plan" "app_service_plan" {
-  name = var.app_service_plan_name
-  kind = var.app_service_plan_kind
+  name = local.app_service_plan_name
+  kind = local.app_service_plan_kind
 
   sku {
-    tier = var.asp_sku_tier
-    size = var.asp_sku_size
+    tier = local.asp_sku_tier
+    size = local.asp_sku_size
   }
 
   # General info
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.api_resource_group.name
   tags                = var.tags
 }
 
 resource "azurerm_function_app" "function" {
-  name       = var.function_name
+  name       = local.function_name
   version    = "~3"
   https_only = true
 
@@ -33,11 +39,6 @@ resource "azurerm_function_app" "function" {
     WEBSITE_RUN_FROM_PACKAGE                   = 1
     FUNCTIONS_WORKER_RUNTIME                   = "dotnet"
     FUNCTIONS_EXTENSION_VERSION                = "~3"
-    "RepositoryOptions:CosmosConnectionString" = var.cosmosDbConnectionString
-    "RepositoryOptions:DatabaseId"             = var.cosmosDbDatabaseName
-    "RepositoryOptions:ContainerId"            = var.cosmosDbContainerName
-    "OidcApiAuthorizationSettings:IssuerUrl"   = var.auth0_url
-    "OidcApiAuthorizationSettings:Audience"    = var.auth0_domain
   }
 
   # Parent resource info
@@ -47,6 +48,6 @@ resource "azurerm_function_app" "function" {
 
   # General info
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.api_resource_group.name
   tags                = var.tags
 }
