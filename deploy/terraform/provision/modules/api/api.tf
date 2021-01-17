@@ -20,8 +20,8 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   kind = local.app_service_plan_kind
 
   sku {
-    tier = local.asp_sku_tier
-    size = local.asp_sku_size
+    tier = local.sku_tier
+    size = local.sku_size
   }
 
   # General info
