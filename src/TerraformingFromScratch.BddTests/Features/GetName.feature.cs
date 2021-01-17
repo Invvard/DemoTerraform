@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace TerraformingFromScratch.BddTests.Features
+namespace InvvardDev.DemoTerraform.BddTests.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -31,7 +31,7 @@ namespace TerraformingFromScratch.BddTests.Features
 #line 1 "GetName.feature"
 #line hidden
         
-        public GetNameFeature(GetNameFeature.FixtureData fixtureData, TerraformingFromScratch_BddTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public GetNameFeature(GetNameFeature.FixtureData fixtureData, InvvardDev_DemoTerraform_BddTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
