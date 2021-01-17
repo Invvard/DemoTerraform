@@ -31,7 +31,7 @@ stages:
           backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
           backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
           releaseId: ${{ parameters.releaseId }}
-          workingDirectory: ${{ parameters.terraformWorkingDirectory }}/20-api-infra
+          workingDirectory: ${{ parameters.terraformWorkingDirectory }}/provision
       
       # - template: ../jobs/api-build.yml
       #   parameters:
