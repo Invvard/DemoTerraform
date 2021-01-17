@@ -15,23 +15,26 @@ stages:
     displayName: Destroy Demo Terraform
     
     jobs:
-      steps:
-        - template: ./templates/steps/backend-setup.yml
-          parameters:
-            azureMsiCredFile: ${{ variables.azureMsiCredFile }}
-            backendContainerName: $(BackendContainerName)
-            backendResourceGroupName: $(BackendResourceGroupName)
-            backendStorageAccountName: $(BackendStorageAccountName)
-            tfStateName: '${{ variables.stage }}.tfstate'
-            workingDirectory: ${{ variables.workingDirectory }}
+      - job: destroy
+        displayName: Destroy ${{ variables.stage }} API
 
-        - script: |
-            terraform plan -destroy
-          displayName: Terraform plan destroy
-          workingDirectory: ${{ variables.workingDirectory }}
-          
-        - script: |
-            terraform destroy -auto-approve
-          displayName: Terraform destroy
-          condition: and(succeeded(), ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }})
+        steps:
+          - template: ./templates/steps/backend-setup.yml
+            parameters:
+              azureMsiCredFile: ${{ variables.azureMsiCredFile }}
+              backendContainerName: $(BackendContainerName)
+              backendResourceGroupName: $(BackendResourceGroupName)
+              backendStorageAccountName: $(BackendStorageAccountName)
+              tfStateName: '${{ variables.stage }}.tfstate'
+              workingDirectory: ${{ variables.workingDirectory }}
+
+          - script: |
+              terraform plan -destroy
+            displayName: Terraform plan destroy
+            workingDirectory: ${{ variables.workingDirectory }}
+            
+          - script: |
+              terraform destroy -auto-approve
+            displayName: Terraform destroy
+            condition: and(succeeded(), ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }})
 
