@@ -25,11 +25,11 @@ stages:
               backendContainerName: $(BackendContainerName)
               backendResourceGroupName: $(BackendResourceGroupName)
               backendStorageAccountName: $(BackendStorageAccountName)
-              tfStateName: '${{ variables.stage }}.tfstate'
+              stage: ${{ variables.stage }}
               workingDirectory: ${{ variables.workingDirectory }}
 
           - script: |
-              terraform plan -destroy
+              terraform plan -destroy -input=false
             displayName: Terraform plan destroy
             workingDirectory: ${{ variables.workingDirectory }}
             
