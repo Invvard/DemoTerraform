@@ -9,6 +9,8 @@ variables:
     value: arm.credentials.dev.auto.tfvars
   - name: workingDirectory
     value: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
+  - name: tfplanName
+    value: destroy.tfplan
 
 stages:
   - stage: ${{ variables.stage }}
@@ -29,12 +31,12 @@ stages:
               workingDirectory: ${{ variables.workingDirectory }}
 
           - script: |
-              terraform plan -destroy -input=false
+              terraform plan -destroy -input=false -out ${{ variables.tfplanName }}
             displayName: Terraform plan destroy
             workingDirectory: ${{ variables.workingDirectory }}
             
           - script: |
-              terraform destroy -auto-approve
+              terraform apply -input=false -auto-approve ${{ variables.tfplanName }}
             displayName: Terraform destroy
             condition: and(succeeded(), ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }})
 
