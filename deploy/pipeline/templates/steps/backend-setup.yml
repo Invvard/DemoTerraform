@@ -17,7 +17,7 @@ steps:
       retryCount: '7'
 
   - script: |
-      mv $(azureMsiCreds.secureFilePath) ${{ parameters.azureMsiCredFile }}
+      mv $(azureMsiCreds.secureFilePath) ${{ parameters.workingDirectory }}/${{ parameters.azureMsiCredFile }}
     displayName: Move Azure MSI Credentials
     workingDirectory: ${{ parameters.workingDirectory }}
 
