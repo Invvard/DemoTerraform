@@ -31,7 +31,7 @@ jobs:
         displayName: Prepare Terraform variables
         workingDirectory: ${{ parameters.workingDirectory }}
 
-      - template: ../steps/terraform-run.yml
+      - template: ../steps/terraform-apply.yml
         parameters:
           applyDeployment: ${{ parameters.applyDeployment }}
           azureMsiCredFile: ${{ parameters.azureMsiCredFile }}
