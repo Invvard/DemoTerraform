@@ -16,7 +16,6 @@ stages:
     displayName: Deploy Demo Terraform
 
     variables:
-      - group: Auth0-Management
       - name: functionAppName
         value: fct-demotf-${{ parameters.stage }}-${{ parameters.apiName }}
       - name: apiArchiveName
