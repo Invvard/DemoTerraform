@@ -2,14 +2,14 @@
 using System.IO;
 using System.Threading.Tasks;
 using InvvardDev.DemoTerraform.Api;
+using InvvardDev.DemoTerraform.Tests.utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Xunit;
-using TerraformingFromScratch.Tests.utils;
 
-namespace TerraformingFromScratch.Tests
+namespace InvvardDev.DemoTerraform.Tests
 {
     public class HttpTriggeredFunctionTest
     {
