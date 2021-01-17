@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Primitives;
 
-namespace TerraformingFromScratch.Tests.utils
+namespace InvvardDev.DemoTerraform.Tests.utils
 {
     public class TestFactory
     {
