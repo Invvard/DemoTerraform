@@ -17,19 +17,14 @@ jobs:
         value: tfplan-${{ parameters.releaseId }}.tfplan
     
     steps:
-      - template: ../steps/backend-setup.yml
+      - template: ../steps/terraform-setup.yml
         parameters:
           azureMsiCredFile: ${{ parameters.azureMsiCredFile }}
           backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
           backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
           backendContainerName: ${{ parameters.backendContainerName }}
-          tfStateName: '${{ parameters.stage }}.tfstate'
+          stage: ${{ parameters.stage }}
           workingDirectory: ${{ parameters.workingDirectory }}
-
-      - script: |
-          envsubst < "../env_vars/${{ parameters.stage }}.tfvars" > "terraform.tfvars"
-        displayName: Prepare stage specific variables
-        workingDirectory: ${{ parameters.workingDirectory }}
 
       - template: ../steps/terraform-apply.yml
         parameters:

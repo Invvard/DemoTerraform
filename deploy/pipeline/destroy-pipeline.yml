@@ -19,7 +19,7 @@ stages:
         displayName: Destroy ${{ variables.stage }} API
 
         steps:
-          - template: ./templates/steps/backend-setup.yml
+          - template: ./templates/steps/terraform-setup.yml
             parameters:
               azureMsiCredFile: ${{ variables.azureMsiCredFile }}
               backendContainerName: $(BackendContainerName)
