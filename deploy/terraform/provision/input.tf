@@ -7,7 +7,7 @@ variable "environment_name" {}
 variable "location" { default = "eastus2" }
 
 locals {
-  project_name = "demoterraform"
+  project_name = "demotf"
 
   tags = {
     project     = local.project_name,
