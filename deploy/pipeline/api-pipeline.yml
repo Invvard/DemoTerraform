@@ -7,7 +7,7 @@ trigger:
   paths:
     include:
       - deploy/terraform/*
-      - src/TerraformingFromScratch/*
+      - src/InvvardDev.DemoTerraform.Api/*
 
 variables:
   - group: Backend-Resource-Names
@@ -26,5 +26,5 @@ stages:
       backendResourceGroupName: $(BackendResourceGroupName)
       backendStorageAccountName: $(BackendStorageAccountName)
       releaseId: $(System.StageName)-b$(Build.BuildId)
-      buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/TerraformingFromScratch/
+      buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
       terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
