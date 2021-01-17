@@ -6,7 +6,7 @@ Build the base infrastructure that will receive data to support future deploymen
 * AzureRM : >= 2.43
 
 # Variables
-Those variables must be set within the deployement pipeline :
+Those variables must be set within the deployment pipeline :
 1. arm_subscription_id
 2. arm_client_id
 3. arm_client_secret
