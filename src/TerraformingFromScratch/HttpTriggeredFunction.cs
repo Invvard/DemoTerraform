@@ -1,49 +1,51 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace TerraformingFromScratch
+namespace InvvardDev.DemoTerraform.Api
 {
     public static class HttpTriggeredFunction
     {
-        [ FunctionName("GetName") ]
-        public static IActionResult GetName([ HttpTrigger(AuthorizationLevel.Anonymous, "get") ]
-                                            HttpRequest req,
-                                            ILogger log)
+        [FunctionName("dowepush")]
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")]
+            HttpRequest req,
+            ILogger log)
         {
-            log.LogInformation("HTTP Trigger - getName function");
+            log.LogInformation("HTTP Trigger - DoWePush function");
 
-            string name = req.Query["name"];
+            var weekDay = await GetWeekDay(req);
+            
+            var message = weekDay == DayOfWeek.Friday
+                ? "This is madness !"
+                : "This is the way";
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                                         ? "This HTTP triggered function executed successfully. Pass a name in the query string for a personalized response."
-                                         : $"Hello, {name}. This HTTP triggered function executed successfully.";
-
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(message);
         }
 
-        [FunctionName("PostName")]
-        public static async Task<IActionResult> PostName([ HttpTrigger(AuthorizationLevel.Anonymous, "post") ]
-                                                         HttpRequest req,
-                                                         ILogger log)
+        private static async Task<DayOfWeek> GetWeekDay(HttpRequest req)
         {
-            log.LogInformation("HTTP Trigger - postName function");
+            string dateString = req.Query["date"];
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string name = data?.name;
+            if (string.IsNullOrWhiteSpace(dateString))
+            {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                dynamic data = JsonConvert.DeserializeObject(requestBody);
+                dateString ??= data?.date;
+            }
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                                         ? "This HTTP triggered function executed successfully. Pass a name in the body for a personalized response."
-                                         : $"Hello, {name}. This HTTP triggered function executed successfully.";
+            DayOfWeek weekDay = DateTime.Today.DayOfWeek;
+            if (DateTime.TryParse(dateString, out var date))
+            {
+                weekDay = date.DayOfWeek;
+            }
 
-            return new OkObjectResult(responseMessage);
+            return weekDay;
         }
     }
 }
