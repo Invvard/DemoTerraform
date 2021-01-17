@@ -1,4 +1,4 @@
-﻿namespace TerraformingFromScratch.Tests.utils
+﻿namespace InvvardDev.DemoTerraform.Tests.utils
 {
     public enum LoggerTypes
     {

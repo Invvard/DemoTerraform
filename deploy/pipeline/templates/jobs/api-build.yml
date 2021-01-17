@@ -1,0 +1,45 @@
+parameters:
+  - name: apiName
+  - name: applyDeployment
+  - name: builtFunctionOutputPath
+  - name: publishedApiLocation
+
+jobs:
+  - job: buildApi
+    displayName: Build ${{ parameters.apiName }} API
+
+    variables:
+      - name: apiProjectName
+        value: MandalDev.Parkeeng.Api.${{ parameters.apiName }}.csproj
+      - name: unitTestsProjectName
+        value: MandalDev.Parkeeng.Api.${{ parameters.apiName }}.UnitTests.csproj
+
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Unit test ${{ parameters.apiName }} API
+        inputs:
+          command: test
+          projects: |
+            **/$(unitTestsProjectName)
+
+      - task: DotNetCoreCLI@2
+        displayName: Build ${{ parameters.apiName }} API
+        inputs:
+          projects: |
+            **/$(apiProjectName)
+          arguments: --output ${{ parameters.builtFunctionOutputPath }} --configuration Release
+
+      - task: ArchiveFiles@2
+        displayName: Archive ${{ parameters.apiName }} API
+        condition: and(succeeded(), ${{ parameters.applyDeployment }})
+        inputs:
+          rootFolderOrFile: ${{ parameters.builtFunctionOutputPath }}
+          includeRootFolder: false
+          archiveType: zip
+          archiveFile: ${{ parameters.publishedApiLocation }}
+          replaceExistingArchive: true
+      
+      - publish: ${{ parameters.publishedApiLocation }}
+        displayName: Publish ${{ parameters.apiName }} API
+        condition: and(succeeded(), ${{ parameters.applyDeployment }})
+        artifact: drop  

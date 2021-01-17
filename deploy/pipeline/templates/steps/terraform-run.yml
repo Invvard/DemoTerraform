@@ -1,0 +1,22 @@
+parameters:
+  - name: applyDeployment
+  - name: azureMsiCredFile
+  - name: tfplanName
+  - name: workingDirectory
+
+steps:
+  - script: |
+      terraform init -input=false -backend-config=${{ parameters.azureMsiCredFile }}
+    displayName: Terraform init
+    workingDirectory: '${{ parameters.workingDirectory }}'
+
+  - script: |
+      terraform plan -input=false -out ${{ parameters.tfplanName }}
+    displayName: Terraform plan
+    workingDirectory: '${{ parameters.workingDirectory }}'
+    
+  - script: |
+      terraform apply -input=false -auto-approve ${{ parameters.tfplanName }}
+    displayName: Terraform apply
+    workingDirectory: '${{ parameters.workingDirectory }}'
+    condition: and(succeeded(), ${{ parameters.applyDeployment }})

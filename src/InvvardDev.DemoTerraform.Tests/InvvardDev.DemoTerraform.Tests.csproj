@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TerraformingFromScratch\TerraformingFromScratch.csproj" />
+    <ProjectReference Include="..\InvvardDev.DemoTerraform\InvvardDev.DemoTerraform.Api.csproj" />
   </ItemGroup>
 
 </Project>
