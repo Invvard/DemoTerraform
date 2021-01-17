@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using InvvardDev.DemoTerraform.Api;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +57,7 @@ namespace TerraformingFromScratch.Tests
         [InlineData("other", "", MissingQueryStringMessage)]
         [InlineData("name", "", MissingQueryStringMessage)]
         [InlineData("name", "Luke", "Hello, Luke. This HTTP triggered function executed successfully.")]
-        public void GetName_ReturnCorrectResponse(string queryStringParamName, string queryStringValue,
+        public async Task GetName_ReturnCorrectResponse(string queryStringParamName, string queryStringValue,
             string expectedMessage)
         {
             // Arrange

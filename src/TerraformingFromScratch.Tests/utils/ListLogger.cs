@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
-namespace TerraformingFromScratch.Tests.utils
+namespace InvvardDev.DemoTerraform.Tests.utils
 {
     public class ListLogger : ILogger
     {

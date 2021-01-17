@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TerraformingFromScratch.Tests.utils
+namespace InvvardDev.DemoTerraform.Tests.utils
 {
     public class NullScope : IDisposable
     {
