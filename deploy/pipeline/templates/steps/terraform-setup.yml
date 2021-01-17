@@ -5,7 +5,7 @@ parameters:
   - name: backendContainerName
   - name: terraformVersion
     default: '0.14.4'
-  - name: tfStateName
+  - name: stage
   - name: workingDirectory
 
 steps:
@@ -14,7 +14,7 @@ steps:
     name: azureMsiCreds
     inputs:
       secureFile: ${{ parameters.azureMsiCredFile }}
-      retryCount: '7'
+      retryCount: 7
 
   - script: |
       mv $(azureMsiCreds.secureFilePath) ${{ parameters.workingDirectory }}/${{ parameters.azureMsiCredFile }}
@@ -30,7 +30,12 @@ steps:
       RESOURCE_GROUP_NAME: '${{ parameters.backendResourceGroupName }}'
       STORAGE_ACCOUNT_NAME: '${{ parameters.backendStorageAccountName }}'
       STORAGE_CONTAINER_NAME: '${{ parameters.backendContainerName }}'
-      TF_STATE_NAME: '${{ parameters.tfStateName }}'
+      TF_STATE_NAME: ${{ parameters.stage }}.tfstate
+
+  - script: |
+      envsubst < "../env_vars/${{ parameters.stage }}.tfvars" > "terraform.tfvars"
+    displayName: Prepare stage specific variables
+    workingDirectory: ${{ parameters.workingDirectory }}
 
   - script: |
       terraform init -backend-config=${{ parameters.azureMsiCredFile }}
