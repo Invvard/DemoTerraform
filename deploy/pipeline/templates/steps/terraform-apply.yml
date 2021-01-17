@@ -1,6 +1,5 @@
 parameters:
   - name: applyDeployment
-  - name: azureMsiCredFile
   - name: tfplanName
   - name: workingDirectory
 
