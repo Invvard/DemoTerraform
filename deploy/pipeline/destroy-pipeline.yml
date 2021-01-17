@@ -1,0 +1,40 @@
+trigger:
+  none
+
+variables:
+  - group: Backend-Resource-Names
+  - name: stage
+    value: dev
+  - name: azureMsiCredFile
+    value: arm.credentials.dev.auto.tfvars
+  - name: workingDirectory
+    value: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
+
+stages:
+  - stage: ${{ variables.stage }}
+    displayName: Destroy Demo Terraform
+    
+    jobs:
+      - job: destroy
+        displayName: Destroy ${{ variables.stage }} API
+
+        steps:
+          - template: ./templates/steps/terraform-setup.yml
+            parameters:
+              azureMsiCredFile: ${{ variables.azureMsiCredFile }}
+              backendContainerName: $(BackendContainerName)
+              backendResourceGroupName: $(BackendResourceGroupName)
+              backendStorageAccountName: $(BackendStorageAccountName)
+              stage: ${{ variables.stage }}
+              workingDirectory: ${{ variables.workingDirectory }}
+
+          - script: |
+              terraform plan -destroy -input=false
+            displayName: Terraform plan destroy
+            workingDirectory: ${{ variables.workingDirectory }}
+            
+          - script: |
+              terraform destroy -auto-approve
+            displayName: Terraform destroy
+            condition: and(succeeded(), ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }})
+
