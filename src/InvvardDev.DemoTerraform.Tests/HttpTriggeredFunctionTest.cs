@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using InvvardDev.DemoTerraform.Api;
+using InvvardDev.DemoTerraform.Tests.utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Xunit;
-using TerraformingFromScratch.Tests.utils;
 
-namespace TerraformingFromScratch.Tests
+namespace InvvardDev.DemoTerraform.Tests
 {
     public class HttpTriggeredFunctionTest
     {
@@ -33,7 +35,7 @@ namespace TerraformingFromScratch.Tests
 
 
         [Fact]
-        public void GetName_WhenNoQueryString_ReturnCorrectResponse()
+        public async Task GetName_WhenNoQueryString_ReturnCorrectResponse()
         {
             // Arrange
             var logger = TestFactory.CreateLogger();
@@ -43,7 +45,7 @@ namespace TerraformingFromScratch.Tests
             };
 
             // Act
-            var response = HttpTriggeredFunction.GetName(request, logger);
+            var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.IsType<OkObjectResult>(response);
@@ -55,7 +57,7 @@ namespace TerraformingFromScratch.Tests
         [InlineData("other", "", MissingQueryStringMessage)]
         [InlineData("name", "", MissingQueryStringMessage)]
         [InlineData("name", "Luke", "Hello, Luke. This HTTP triggered function executed successfully.")]
-        public void GetName_ReturnCorrectResponse(string queryStringParamName, string queryStringValue,
+        public async Task GetName_ReturnCorrectResponse(string queryStringParamName, string queryStringValue,
             string expectedMessage)
         {
             // Arrange
@@ -70,7 +72,7 @@ namespace TerraformingFromScratch.Tests
             };
 
             // Act
-            var response = HttpTriggeredFunction.GetName(request, logger);
+            var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.IsType<OkObjectResult>(response);
@@ -85,7 +87,7 @@ namespace TerraformingFromScratch.Tests
             var request = new DefaultHttpRequest(new DefaultHttpContext());
 
             // Act
-            var response = HttpTriggeredFunction.GetName(request, logger);
+            var response = HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.Equal(1, logger.Logs.Count);
@@ -100,7 +102,7 @@ namespace TerraformingFromScratch.Tests
             var request = new DefaultHttpRequest(new DefaultHttpContext());
 
             // Act
-            var response = await HttpTriggeredFunction.PostName(request, logger);
+            var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.IsType<OkObjectResult>(response);
@@ -120,7 +122,7 @@ namespace TerraformingFromScratch.Tests
             var request = CreateRequest(bodyParamName, bodyParamValue);
 
             // Act
-            var response = await HttpTriggeredFunction.PostName(request, logger);
+            var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.IsType<OkObjectResult>(response);
@@ -135,7 +137,7 @@ namespace TerraformingFromScratch.Tests
             var request = new DefaultHttpRequest(new DefaultHttpContext());
 
             // Act
-            var response = await HttpTriggeredFunction.PostName(request, logger);
+            var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
             Assert.Equal(1, logger.Logs.Count);

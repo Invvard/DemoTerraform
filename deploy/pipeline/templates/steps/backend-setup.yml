@@ -1,0 +1,33 @@
+parameters:
+  - name: azureMsiCredFile
+  - name: backendResourceGroupName
+  - name: backendStorageAccountName
+  - name: backendContainerName
+  - name: terraformVersion
+    default: '0.14.4'
+  - name: tfStateName
+  - name: workingDirectory
+
+steps:
+  - task: DownloadSecureFile@1
+    displayName: Download Azure MSI Credentials ($(azureMsiCredFile))
+    name: azureMsiCreds
+    inputs:
+      secureFile: ${{ parameters.azureMsiCredFile }}
+      retryCount: '7'
+
+  - script: |
+      mv $(azureMsiCreds.secureFilePath) ${{ parameters.azureMsiCredFile }}
+    displayName: Move Azure MSI Credentials
+    workingDirectory: ${{ parameters.workingDirectory }}
+
+  - script: |
+      envsubst < "../env_vars/backend.tf.example" > "backend.tf"
+    displayName: Prepare Terraform backend
+    workingDirectory: ${{ parameters.workingDirectory }}
+    env:
+      TERRAFORM_VERSION: '${{ parameters.terraformVersion }}'
+      RESOURCE_GROUP_NAME: '${{ parameters.backendResourceGroupName }}'
+      STORAGE_ACCOUNT_NAME: '${{ parameters.backendStorageAccountName }}'
+      STORAGE_CONTAINER_NAME: '${{ parameters.backendContainerName }}'
+      TF_STATE_NAME: '${{ parameters.tfStateName }}'

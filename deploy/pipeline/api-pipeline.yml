@@ -1,0 +1,30 @@
+name: $(BuildDefinitionName) $(Year:yy)$(DayOfYear)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - deploy/terraform/*
+      - src/InvvardDev.DemoTerraform.Api/*
+
+variables:
+  - group: Backend-Resource-Names
+  - name: isMainBranch
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+
+stages:
+  - template: templates/stages/api-dowepush.yml
+    parameters:
+      stage: dev
+      apiName: DoWePush
+      applyDeployment: ${{ variables.isMainBranch }}
+      azureMsiCredFile: arm.credentials.dev.auto.tfvars
+      azureSubscription: Azure Hilo
+      backendContainerName: $(BackendContainerName)
+      backendResourceGroupName: $(BackendResourceGroupName)
+      backendStorageAccountName: $(BackendStorageAccountName)
+      releaseId: $(System.StageName)-b$(Build.BuildId)
+      buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
+      terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
