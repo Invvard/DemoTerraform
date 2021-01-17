@@ -31,3 +31,8 @@ steps:
       STORAGE_ACCOUNT_NAME: '${{ parameters.backendStorageAccountName }}'
       STORAGE_CONTAINER_NAME: '${{ parameters.backendContainerName }}'
       TF_STATE_NAME: '${{ parameters.tfStateName }}'
+
+  - script: |
+      terraform init -backend-config=${{ parameters.azureMsiCredFile }}
+    displayName: Terraform init
+    workingDirectory: ${{ parameters.workingDirectory }}

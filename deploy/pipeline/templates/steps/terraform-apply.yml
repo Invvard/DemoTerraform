@@ -6,11 +6,6 @@ parameters:
 
 steps:
   - script: |
-      terraform init -input=false
-    displayName: Terraform init
-    workingDirectory: ${{ parameters.workingDirectory }}
-
-  - script: |
       terraform plan -input=false -out ${{ parameters.tfplanName }}
     displayName: Terraform plan
     workingDirectory: ${{ parameters.workingDirectory }}
