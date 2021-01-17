@@ -8,7 +8,7 @@ variables:
   - name: azureMsiCredFile
     value: arm.credentials.dev.auto.tfvars
   - name: workingDirectory
-    value: $(System.DefaultWorkingDirectory)/deploy/terraform
+    value: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
 
 stages:
   - stage: ${{ variables.stage }}
