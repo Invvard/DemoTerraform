@@ -4,7 +4,7 @@ parameters:
   - name: backendStorageAccountName
   - name: backendContainerName
   - name: terraformVersion
-    default: '0.14.4'
+    default: '>=0.14.0'
   - name: stage
   - name: workingDirectory
 
