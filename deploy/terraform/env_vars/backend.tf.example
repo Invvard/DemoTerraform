@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=${TERRAFORM_VERSION}"
+  required_version = "${TERRAFORM_VERSION}"
 
   backend "azurerm" {
     use_msi              = true
