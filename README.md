@@ -1,20 +1,25 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Terraform Demo
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Introduction
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+This projects exists so newcomers to Terraform can get a first glimpse with this tool.
+This demo rely on [Azure DevOps](https://dev.azure.com/) to run Terraform scripts and deploy in Azure Cloud.
+It uses free resources in Azure so it won't cost you a dime to experiment !
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Getting Started
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+The [Setup](.\deploy\setup\README.md) page will help you setup your Azure DevOps pipelines.
+
+## Contribute
+
+Every contribution is welcome. Keep in mind those points :
+
+ -Keep things **simple**,
+ -If you add resources, it **must be free**,
+ -It should run on Azure DevOps.
+
+## Code of Conduct
+
+This project has adopted the code of conduct defined by the Contributor Covenant to clarify expected behavior in our community.
+
+For more information, see the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/code-of-conduct).
