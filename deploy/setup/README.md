@@ -39,6 +39,6 @@ Add these 3 variables and assign them a value :
 
 You are going to create 3 pipelines, one for each top level YAML files located at **../pipeline** :
 
-1. backend-pipeline.yml : this little piggy will create the required backend for TF to run smoothly,
-2. api-pipeline.yml : this little piggy will build, provision and deploy your Azure Function,
-3. destroy-pipeline.yml : this one little piggy will remove any resource created with api-pipeline.yml, leaving only the TF backend for you to remove manually.
+1. **backend-pipeline.yml** : this little piggy will create the required backend for TF to run smoothly,
+2. **api-pipeline.yml** : this little piggy will build, provision and deploy your Azure Function,
+3. **destroy-pipeline.yml** : this one little piggy will remove any resource created with api-pipeline.yml, leaving only the TF backend for you to remove manually.
