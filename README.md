@@ -8,7 +8,7 @@ It uses free resources in Azure so it won't cost you a dime to experiment !
 
 ## Getting Started
 
-The [Setup](.\deploy\setup\README.md) page will help you setup your Azure DevOps pipelines.
+The [Setup](/deploy/setup/README.md) page will help you setup your Azure DevOps pipelines.
 
 ## Contribute
 
