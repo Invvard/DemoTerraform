@@ -13,7 +13,7 @@ parameters:
 
 stages:
   - stage: ${{ parameters.stage }}
-    displayName: Deploy Demo Terraform
+    displayName: Deploy DemoTF on ${{parameters.stage}}
 
     variables:
       - name: functionAppName
