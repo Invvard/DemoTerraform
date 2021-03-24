@@ -21,7 +21,7 @@ stages:
       apiName: DoWePush
       applyDeployment: ${{ variables.isMainBranch }}
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
-      azureSubscription: Azure Hilo
+      azureSubscription: Azure DemoTF
       backendContainerName: $(BackendContainerName)
       backendResourceGroupName: $(BackendResourceGroupName)
       backendStorageAccountName: $(BackendStorageAccountName)
