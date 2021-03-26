@@ -32,7 +32,7 @@ stages:
           backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
           backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
           releaseId: ${{ parameters.releaseId }}
-          resourceLocation: resourceLocation
+          resourceLocation: ${{ parameters.resourceLocation }}
           workingDirectory: ${{ parameters.terraformWorkingDirectory }}/provision
       
       # - template: ../jobs/api-build.yml
