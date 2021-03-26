@@ -14,7 +14,7 @@ stages:
   - template : templates/stages/api-destroy.yml
     parameters:
       stage: dev
-      applyDeployment: True
+      applyDestruction: True
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
       backendContainerName: $(BackendContainerName)
       backendResourceGroupName: $(BackendResourceGroupName)
@@ -24,7 +24,7 @@ stages:
   - template : templates/stages/api-destroy.yml
     parameters:
       stage: qa
-      applyDeployment: ${{ variables.isMainBranch }}
+      applyDestruction: ${{ variables.isMainBranch }}
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
       backendContainerName: $(BackendContainerName)
       backendResourceGroupName: $(BackendResourceGroupName)
