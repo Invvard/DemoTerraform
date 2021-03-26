@@ -16,7 +16,7 @@ stages:
       stage: dev
       applyDeployment: True
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
-      backendContainerName: ${{ parameters.backendContainerName }}
-      backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
-      backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+      backendContainerName: $(BackendContainerName)
+      backendResourceGroupName: $(BackendResourceGroupName)
+      backendStorageAccountName: $(BackendStorageAccountName)
       workingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
