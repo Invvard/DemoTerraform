@@ -2,6 +2,7 @@ parameters:
   - name: applyDeployment
   - name: environmentName
   - name: location
+  - name: stage
   - name: tfplanName
   - name: workingDirectory
 
