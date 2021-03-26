@@ -32,6 +32,8 @@ stages:
               terraform plan -destroy -input=false -out ${{ variables.tfplanName }}
             displayName: Terraform plan destroy
             workingDirectory: ${{ parameters.workingDirectory }}
+            env:
+              "TF_VAR_environment_name": ${{ parameters.stage }}
             
           - script: |
               terraform apply -input=false -auto-approve ${{ variables.tfplanName }}
