@@ -11,12 +11,15 @@ trigger:
 
 variables:
   - group: Backend-Resource-Names
+  - name: isMainBranch
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
 
 stages:
   - template: templates/stages/api-dowepush.yml
     parameters:
       stage: dev
       apiName: DoWePush
+      applyDeployment: true
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
       azureSubscription: Azure DemoTF
       backendContainerName: $(BackendContainerName)
@@ -31,6 +34,7 @@ stages:
     parameters:
       stage: qa
       apiName: DoWePush
+      applyDeployment: ${{ variables.isMainBranch }}
       azureMsiCredFile: arm.credentials.dev.auto.tfvars
       azureSubscription: Azure DemoTF
       backendContainerName: $(BackendContainerName)
