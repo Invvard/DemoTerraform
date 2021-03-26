@@ -31,6 +31,6 @@ jobs:
         parameters:
           applyDeployment: ${{ parameters.applyDeployment }}
           location: ${{ parameters.resourceLocation }}
-          stage: ${{ parameters.stage }}
+          environmentName: ${{ parameters.stage }}
           tfplanName: $(tfplanName)
           workingDirectory: ${{ parameters.workingDirectory }}
