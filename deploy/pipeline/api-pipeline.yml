@@ -26,6 +26,7 @@ stages:
       backendResourceGroupName: $(BackendResourceGroupName)
       backendStorageAccountName: $(BackendStorageAccountName)
       releaseId: $(System.StageName)-b$(Build.BuildId)
+      resourceLocation: eastus2
       buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
       terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
   
@@ -40,5 +41,6 @@ stages:
       backendResourceGroupName: $(BackendResourceGroupName)
       backendStorageAccountName: $(BackendStorageAccountName)
       releaseId: $(System.StageName)-b$(Build.BuildId)
+      resourceLocation: eastus2
       buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
       terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
