@@ -5,6 +5,7 @@ parameters:
   - name: backendResourceGroupName
   - name: backendStorageAccountName
   - name: releaseId
+  - name: resourceLocation
   - name: stage
   - name: terraformWorkingDirectory
   - name: apiName
@@ -13,7 +14,7 @@ parameters:
 
 stages:
   - stage: ${{ parameters.stage }}
-    displayName: Deploy Demo Terraform
+    displayName: Deploy DemoTF on ${{parameters.stage}}
 
     variables:
       - name: functionAppName
@@ -31,6 +32,7 @@ stages:
           backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
           backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
           releaseId: ${{ parameters.releaseId }}
+          resourceLocation: ${{ parameters.resourceLocation }}
           workingDirectory: ${{ parameters.terraformWorkingDirectory }}/provision
       
       # - template: ../jobs/api-build.yml

@@ -5,6 +5,7 @@ parameters:
   - name: backendResourceGroupName
   - name: backendStorageAccountName
   - name: releaseId
+  - name: resourceLocation
   - name: stage
   - name: workingDirectory
 
@@ -29,5 +30,7 @@ jobs:
       - template: ../steps/terraform-apply.yml
         parameters:
           applyDeployment: ${{ parameters.applyDeployment }}
+          location: ${{ parameters.resourceLocation }}
+          environmentName: ${{ parameters.stage }}
           tfplanName: $(tfplanName)
           workingDirectory: ${{ parameters.workingDirectory }}

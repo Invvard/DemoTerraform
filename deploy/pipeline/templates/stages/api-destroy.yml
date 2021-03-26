@@ -1,0 +1,42 @@
+parameters:
+  - name: applyDestruction
+  - name: azureMsiCredFile
+  - name: backendContainerName
+  - name: backendResourceGroupName
+  - name: backendStorageAccountName
+  - name: workingDirectory
+  - name: stage
+
+stages:
+  - stage: ${{ parameters.stage }}
+    displayName: Destroy DemoTF  on ${{ parameters.stage }}
+    variables:
+      - name: tfplanName
+        value: destroy-${{ parameters.stage }}.tfplan
+
+    jobs:
+      - job: destroy
+        displayName: Destroy ${{ parameters.stage }} API
+
+        steps:
+          - template: ../steps/terraform-setup.yml
+            parameters:
+              azureMsiCredFile: ${{ parameters.azureMsiCredFile }}
+              backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
+              backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+              backendContainerName: ${{ parameters.backendContainerName }}
+              stage: ${{ parameters.stage }}
+              workingDirectory: ${{ parameters.workingDirectory }}
+
+          - script: |
+              terraform plan -destroy -input=false -out ${{ variables.tfplanName }}
+            displayName: Terraform plan destroy
+            workingDirectory: ${{ parameters.workingDirectory }}
+            env:
+              "TF_VAR_environment_name": ${{ parameters.stage }}
+            
+          - script: |
+              terraform apply -input=false -auto-approve ${{ variables.tfplanName }}
+            displayName: Terraform destroy
+            workingDirectory: ${{ parameters.workingDirectory }}
+            condition: and(succeeded(), ${{ parameters.applyDestruction }})

@@ -1,5 +1,7 @@
 parameters:
   - name: applyDeployment
+  - name: environmentName
+  - name: location
   - name: tfplanName
   - name: workingDirectory
 
@@ -8,6 +10,9 @@ steps:
       terraform plan -input=false -out ${{ parameters.tfplanName }}
     displayName: Terraform plan
     workingDirectory: ${{ parameters.workingDirectory }}
+    env:
+      "TF_VAR_environment_name": '${{ parameters.environmentName }}'
+      "TF_VAR_location": '${{ parameters.location }}'
     
   - script: |
       terraform apply -input=false -auto-approve ${{ parameters.tfplanName }}
