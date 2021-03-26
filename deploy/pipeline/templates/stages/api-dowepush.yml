@@ -1,5 +1,4 @@
 parameters:
-  - name: applyDeployment
   - name: azureMsiCredFile
   - name: backendContainerName
   - name: backendResourceGroupName
@@ -26,7 +25,6 @@ stages:
       - template: ../jobs/api-provision.yml
         parameters:
           stage: ${{ parameters.stage }}
-          applyDeployment: ${{ parameters.applyDeployment }}
           azureMsiCredFile: ${{ parameters.azureMsiCredFile }}
           backendContainerName: ${{ parameters.backendContainerName }}
           backendResourceGroupName: ${{ parameters.backendResourceGroupName }}

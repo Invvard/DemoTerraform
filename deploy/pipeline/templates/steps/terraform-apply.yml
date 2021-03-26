@@ -1,5 +1,4 @@
 parameters:
-  - name: applyDeployment
   - name: environmentName
   - name: location
   - name: tfplanName
@@ -18,4 +17,3 @@ steps:
       terraform apply -input=false -auto-approve ${{ parameters.tfplanName }}
     displayName: Terraform apply
     workingDirectory: ${{ parameters.workingDirectory }}
-    condition: and(succeeded(), ${{ parameters.applyDeployment }})

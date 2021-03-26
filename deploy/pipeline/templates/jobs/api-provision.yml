@@ -1,5 +1,4 @@
 parameters:
-  - name: applyDeployment
   - name: azureMsiCredFile
   - name: backendContainerName
   - name: backendResourceGroupName
@@ -29,7 +28,6 @@ jobs:
 
       - template: ../steps/terraform-apply.yml
         parameters:
-          applyDeployment: ${{ parameters.applyDeployment }}
           location: ${{ parameters.resourceLocation }}
           environmentName: ${{ parameters.stage }}
           tfplanName: $(tfplanName)
