@@ -20,3 +20,13 @@ stages:
       backendResourceGroupName: $(BackendResourceGroupName)
       backendStorageAccountName: $(BackendStorageAccountName)
       workingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
+      
+  - template : templates/stages/api-destroy.yml
+    parameters:
+      stage: qa
+      applyDeployment: True
+      azureMsiCredFile: arm.credentials.dev.auto.tfvars
+      backendContainerName: $(BackendContainerName)
+      backendResourceGroupName: $(BackendResourceGroupName)
+      backendStorageAccountName: $(BackendStorageAccountName)
+      workingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform/provision
