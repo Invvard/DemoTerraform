@@ -1,7 +1,7 @@
 variable "subscription_id" {
 	type	   = string
 	validation {
-		condition	  = can(regex("(?i)^[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}", var.subscription_id))
+		condition	  = can(regex("(?i)[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}", var.subscription_id))
 		error_message = "subscription_id must be a valid GUID."
 	}
 }
