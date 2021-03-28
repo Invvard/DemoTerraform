@@ -2,14 +2,14 @@ variable "subscription_id" {
 	type	   = string
 	validation {
 		condition	  = can(regex("(?i)[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}", var.subscription_id))
-		error_message = "subscription_id must be a valid GUID."
+		error_message = "The subscription_id variable must be a valid GUID."
 	}
 }
 variable "client_id" {
 	type	   = string
 	validation {
 		condition	  = can(regex("(?i)^[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}", var.client_id))
-		error_message = "client_id must be a valid GUID."
+		error_message = "The client_id variable must be a valid GUID."
 	}
 }
 variable "client_secret" {
@@ -20,7 +20,7 @@ variable "tenant_id" {
 	type	   = string
 	validation {
 		condition	  = can(regex("(?i)^[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}", var.tenant_id))
-		error_message = "tenant_id must be a valid GUID."
+		error_message = "The tenant_id variable must be a valid GUID."
 	}
 }
 
