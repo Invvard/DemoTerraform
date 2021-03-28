@@ -8,6 +8,7 @@ variable "location" { default = "eastus2" }
 
 locals {
   project_name = "demotf"
+  resource_prefix = "${local.project_name}-${var.environment_name}"
 
   tags = {
     project     = local.project_name,
