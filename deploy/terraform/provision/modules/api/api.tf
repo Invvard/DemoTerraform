@@ -1,9 +1,3 @@
-resource "azurerm_resource_group" "api_resource_group" {
-  name     = "rg-${local.resource_prefix}"
-  location = var.location
-  tags     = var.tags
-}
-
 resource "azurerm_storage_account" "storage" {
   name                     = local.storage_account_name
   account_tier             = local.storage_tier
@@ -11,7 +5,7 @@ resource "azurerm_storage_account" "storage" {
 
   # General info
   location            = var.location
-  resource_group_name = azurerm_resource_group.api_resource_group.name
+  resource_group_name = var.rg_name
   tags                = var.tags
 }
 
@@ -26,7 +20,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 
   # General info
   location            = var.location
-  resource_group_name = azurerm_resource_group.api_resource_group.name
+  resource_group_name = var.rg_name
   tags                = var.tags
 }
 
@@ -48,6 +42,6 @@ resource "azurerm_function_app" "function" {
 
   # General info
   location            = var.location
-  resource_group_name = azurerm_resource_group.api_resource_group.name
+  resource_group_name = var.rg_name
   tags                = var.tags
 }
