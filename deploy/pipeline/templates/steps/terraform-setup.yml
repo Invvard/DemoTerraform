@@ -33,6 +33,6 @@ steps:
       TF_STATE_NAME: ${{ parameters.stage }}.tfstate
 
   - script: |
-      terraform init
+      terraform init -backend-config=${{ parameters.azureMsiCredFile }}
     displayName: Terraform init
     workingDirectory: ${{ parameters.workingDirectory }}
