@@ -24,7 +24,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   tags                = var.tags
 }
 
-resource "azurerm_function_app" "function" {
+resource "azurerm_function_app" "api_function" {
   name       = local.function_name
   version    = "~3"
   https_only = true
