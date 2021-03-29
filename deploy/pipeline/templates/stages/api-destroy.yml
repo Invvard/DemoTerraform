@@ -36,7 +36,7 @@ stages:
               "TF_VAR_environment_name": ${{ parameters.stage }}
             
           - script: |
-              terraform apply -input=false -auto-approve ${{ variables.tfplanName }}
+              terraform apply ${{ variables.tfplanName }}
             displayName: Terraform destroy
             workingDirectory: ${{ parameters.workingDirectory }}
             condition: and(succeeded(), ${{ parameters.applyDestruction }})
