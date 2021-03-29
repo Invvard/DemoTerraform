@@ -38,6 +38,6 @@ steps:
     workingDirectory: ${{ parameters.workingDirectory }}
 
   - script: |
-      terraform init -backend-config=${{ parameters.azureMsiCredFile }}
+      terraform init
     displayName: Terraform init
     workingDirectory: ${{ parameters.workingDirectory }}
