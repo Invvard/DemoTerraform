@@ -44,3 +44,18 @@ stages:
       resourceLocation: eastus2
       buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
       terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
+  
+  - template: templates/stages/api-dowepush.yml
+    parameters:
+      stage: grogu
+      apiName: DoWePush
+      applyDeployment: ${{ variables.isMainBranch }}
+      azureMsiCredFile: arm.credentials.dev.auto.tfvars
+      azureSubscription: Azure DemoTF
+      backendContainerName: $(BackendContainerName)
+      backendResourceGroupName: $(BackendResourceGroupName)
+      backendStorageAccountName: $(BackendStorageAccountName)
+      releaseId: $(System.StageName)-b$(Build.BuildId)
+      resourceLocation: eastus2
+      buildWorkingDirectory: $(System.DefaultWorkingDirectory)/src/InvvardDev.DemoTerraform.Api/
+      terraformWorkingDirectory: $(System.DefaultWorkingDirectory)/deploy/terraform
