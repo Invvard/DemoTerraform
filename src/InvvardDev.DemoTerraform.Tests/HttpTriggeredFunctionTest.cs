@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using FluentAssertions;
 using InvvardDev.DemoTerraform.Api;
 using InvvardDev.DemoTerraform.Tests.utils;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +15,8 @@ namespace InvvardDev.DemoTerraform.Tests
 {
     public class HttpTriggeredFunctionTest
     {
-        private const string MissingQueryStringMessage =
-            "This HTTP triggered function executed successfully. Pass a name in the query string for a personalized response.";
-
-        private const string MissingBodyMessage =
-            "This HTTP triggered function executed successfully. Pass a name in the body for a personalized response.";
+        private const string OkResultMessage = "This is the way";
+        private const string NotOkResultMessage = "This is madness !";
 
         private HttpRequest CreateRequest(string bodyParamName, string paramValue)
         {
@@ -33,9 +32,8 @@ namespace InvvardDev.DemoTerraform.Tests
             return request;
         }
 
-
         [Fact]
-        public async Task GetName_WhenNoQueryString_ReturnCorrectResponse()
+        public async Task DoWePush_WhenNoQueryStringOrBody_ReturnCorrectResponse()
         {
             // Arrange
             var logger = TestFactory.CreateLogger();
@@ -48,78 +46,31 @@ namespace InvvardDev.DemoTerraform.Tests
             var response = await HttpTriggeredFunction.Run(request, logger);
 
             // Assert
-            Assert.IsType<OkObjectResult>(response);
-            Assert.Equal(MissingQueryStringMessage, ((OkObjectResult) response).Value);
+            response.Should().BeOfType<OkObjectResult>();
+            ((OkObjectResult) response).Value.Should().BeEquivalentTo(
+                DateTime.Today.DayOfWeek == DayOfWeek.Friday
+                    ? NotOkResultMessage
+                    : OkResultMessage);
         }
 
         [Theory]
-        [InlineData("", "", MissingQueryStringMessage)]
-        [InlineData("other", "", MissingQueryStringMessage)]
-        [InlineData("name", "", MissingQueryStringMessage)]
-        [InlineData("name", "Luke", "Hello, Luke. This HTTP triggered function executed successfully.")]
-        public async Task GetName_ReturnCorrectResponse(string queryStringParamName, string queryStringValue,
-            string expectedMessage)
-        {
-            // Arrange
-            var logger = TestFactory.CreateLogger();
-            var queryStrings = new Dictionary<string, StringValues>
-            {
-                {queryStringParamName, queryStringValue}
-            };
-            var request = new DefaultHttpRequest(new DefaultHttpContext())
-            {
-                Query = new QueryCollection(queryStrings)
-            };
-
-            // Act
-            var response = await HttpTriggeredFunction.Run(request, logger);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(response);
-            Assert.Equal(expectedMessage, ((OkObjectResult) response).Value);
-        }
-
-        [Fact]
-        public void GetName_should_log_message()
-        {
-            // Arrange
-            var logger = (ListLogger) TestFactory.CreateLogger(LoggerTypes.List);
-            var request = new DefaultHttpRequest(new DefaultHttpContext());
-
-            // Act
-            var response = HttpTriggeredFunction.Run(request, logger);
-
-            // Assert
-            Assert.Equal(1, logger.Logs.Count);
-            Assert.Contains("HTTP Trigger - getName function", logger.Logs[0]);
-        }
-
-        [Fact]
-        public async void PostName_WhenNoQueryString_ReturnCorrectResponse()
-        {
-            // Arrange
-            var logger = TestFactory.CreateLogger();
-            var request = new DefaultHttpRequest(new DefaultHttpContext());
-
-            // Act
-            var response = await HttpTriggeredFunction.Run(request, logger);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(response);
-            Assert.Equal(MissingBodyMessage, ((OkObjectResult) response).Value);
-        }
-
-        [Theory]
-        [InlineData("", "", MissingBodyMessage)]
-        [InlineData("other", "", MissingBodyMessage)]
-        [InlineData("name", "", MissingBodyMessage)]
-        [InlineData("name", "Luke", "Hello, Luke. This HTTP triggered function executed successfully.")]
-        public async void PostName_ReturnCorrectResponse(string bodyParamName, string bodyParamValue,
+        [InlineData("", "", "")]
+        [InlineData("other", "", "")]
+        [InlineData("date", "", "")]
+        [InlineData("date", "2021-01-01", NotOkResultMessage)]
+        [InlineData("date", "2021-01-04", OkResultMessage)]
+        public async Task DoWePush_WhenBody_ReturnCorrectAnswer(string bodyParamName, string bodyParamValue,
             string expectedMessage)
         {
             // Arrange
             var logger = TestFactory.CreateLogger();
             var request = CreateRequest(bodyParamName, bodyParamValue);
+            if (string.IsNullOrWhiteSpace(expectedMessage))
+            {
+                expectedMessage = DateTime.Today.DayOfWeek == DayOfWeek.Friday
+                    ? NotOkResultMessage
+                    : OkResultMessage;
+            }
 
             // Act
             var response = await HttpTriggeredFunction.Run(request, logger);
@@ -127,21 +78,6 @@ namespace InvvardDev.DemoTerraform.Tests
             // Assert
             Assert.IsType<OkObjectResult>(response);
             Assert.Equal(expectedMessage, ((OkObjectResult) response).Value);
-        }
-
-        [Fact]
-        public async void PostName_should_log_message()
-        {
-            // Arrange
-            var logger = (ListLogger) TestFactory.CreateLogger(LoggerTypes.List);
-            var request = new DefaultHttpRequest(new DefaultHttpContext());
-
-            // Act
-            var response = await HttpTriggeredFunction.Run(request, logger);
-
-            // Assert
-            Assert.Equal(1, logger.Logs.Count);
-            Assert.Contains("HTTP Trigger - postName function", logger.Logs[0]);
         }
     }
 }
