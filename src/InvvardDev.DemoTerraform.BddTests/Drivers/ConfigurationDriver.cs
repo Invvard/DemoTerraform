@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Xunit.Abstractions;
 
-namespace TerraformingFromScratch.BddTests.Drivers
+namespace InvvardDev.DemoTerraform.BddTests.Drivers
 {
     public class ConfigurationDriver
     {
